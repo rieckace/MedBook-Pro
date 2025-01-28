@@ -147,8 +147,8 @@ const doctorProfile = async (req, res) => {
 //api to update doc data from panel
 const updateDoctorprofile = async (req, res) => {
   try {
-    const { docId, fee, address, available } = req.body;
-    await doctorModel.findOneAndUpdate(docId, { fee, address, available });
+    const { docId, fees, address, available } = req.body;
+    await doctorModel.findOneAndUpdate(docId, { fees, address, available });
     res.json({ success: true, message: "Profile Updated" });
   } catch (error) {
     console.log(error);

@@ -43,7 +43,7 @@ const MyProfile = () => {
           {isEdit ? (
             <input
               className="bg-gray-100 max-w-52"
-              type="text"
+              type="number"
               value={userData.phone}
               onChange={(e) =>
                 setUserData((prev) => ({ ...prev, phone: e.target.value }))

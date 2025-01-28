@@ -19,7 +19,7 @@ const addDoctor = async (req, res) => {
       degree,
       experience,
       about,
-      fee,
+      fees,
       address,
     } = req.body;
     const imageFile = req.file;
@@ -32,7 +32,7 @@ const addDoctor = async (req, res) => {
       !degree ||
       !experience ||
       !about ||
-      !fee ||
+      !fees ||
       !address
     ) {
       return res.json({ success: false, message: "Missing details" });
@@ -70,7 +70,7 @@ const addDoctor = async (req, res) => {
       degree,
       experience,
       about,
-      fee,
+      fees,
       address: JSON.parse(address),
       date: Date.now(),
     };
@@ -87,7 +87,6 @@ const addDoctor = async (req, res) => {
 //admin login
 
 const loginAdmin = async (req, res) => {
-  console.log("JWT_SECRET inside function:", process.env.JWT_SECRET);
   try {
     const { email, password } = req.body;
     if (
