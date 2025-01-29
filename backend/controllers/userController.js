@@ -68,6 +68,7 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
   try {
     const { userId } = req.body;
+    console.log(userId)
     const userData = await userModel.findById(userId).select("-password");
     res.json({ success: true, userData });
   } catch (error) {
@@ -168,7 +169,9 @@ const listAppointment = async (req, res) => {
 //api to cancel appointment
 const cancelAppointment = async (req, res) => {
   try {
-    const { userId, appointmentId } = req.body;
+    // const userId = req.body.userId; // Extract from middleware
+    // console.log(userId)
+    const { appointmentId ,userId} = req.body;
     const appointmentData = await appointmentModel.findById(appointmentId);
     //verify user
     if (appointmentData.userId !== userId) {
@@ -220,10 +223,10 @@ const paymentRazorpay = async (req, res) => {
 
     // creation of an order
     const order = await razorpayInstance.orders.create(options);
-    res.json({ success: true, order });
+    return res.json({ success: true, order });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    return res.json({ success: false, message: error.message });
   }
 };
 
