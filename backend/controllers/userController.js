@@ -112,6 +112,7 @@ const bookAppointment = async (req, res) => {
     const { userId, docId, slotDate, slotTime } = req.body;
 
     const docData = await doctorModel.findById(docId).select("-password");
+    console.log(docData)
 
     if (!docData.available) {
       return res.json({ success: false, message: "Doctor not available" });
@@ -207,34 +208,40 @@ const paymentRazorpay = async (req, res) => {
   try {
     const { appointmentId } = req.body;
     const appointmentData = await appointmentModel.findById(appointmentId);
+
     if (!appointmentData || appointmentData.cancelled) {
-      res.json({
+      return res.json({
         success: false,
         message: "Appointment not found or cancelled",
       });
     }
+    console.log("Appointment Amount:", appointmentData.amount);
 
-    // options for razorpay payment
+    if (!appointmentData.amount || appointmentData.amount <= 0) {
+      return res.json({ success: false, message: "Invalid appointment amount" });
+    }
+
     const options = {
       amount: appointmentData.amount * 100,
-      currency: process.env.CURRENCY,
+      currency: process.env.CURRENCY || "INR",
       receipt: appointmentId,
     };
 
-    // creation of an order
     const order = await razorpayInstance.orders.create(options);
     return res.json({ success: true, order });
   } catch (error) {
-    console.log(error);
+    console.error("Payment Razorpay Error:", error);
     return res.json({ success: false, message: error.message });
   }
 };
+
 
 // api to verify payment
 const verifyRazorpay = async (req, res) => {
   try {
     const { razorpay_order_id } = req.body;
     const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
+    console.log(orderInfo)
     if (orderInfo.status === "paid") {
       await appointmentModel.findByIdAndUpdate(orderInfo.receipt, {
         payment: true,

@@ -113,7 +113,7 @@ const doctorDashboard = async (req, res) => {
       }
     });
     let patients = [];
-    appointmentsDoctor.map((item) => {
+    appointements.map((item) => {
       if (!patients.includes(item.userId)) {
         patients.push(item.userId);
       }
