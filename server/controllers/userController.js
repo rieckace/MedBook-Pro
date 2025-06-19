@@ -93,7 +93,7 @@ const updateProfile = async (req, res) => {
       gender,
     });
     if (imageFile) {
-      //cloudinaru
+      //cloudinary 
       const imageUpload = await cloudinary.uploader.upload(imageFile.path, {
         resource_type: "image",
       });

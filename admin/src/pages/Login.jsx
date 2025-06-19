@@ -16,7 +16,7 @@ const Login = () => {
 
     event.preventDefault()
 
-    try{
+    try{ 
       if(state === "Admin"){
         const {data}=await axios.post(backendUrl + '/api/admin/login',{email,password})
         if (data.success) {
@@ -36,16 +36,11 @@ const Login = () => {
         } else {
           toast.error(data.message || "Invalid email or password."); 
         }
-
       }
-
     }catch(error){
-
     }
 
   }
-
-
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border-none rounded-xl text-[#5E5E5E] text-sm shadow-lg">

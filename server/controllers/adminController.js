@@ -46,7 +46,7 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    //password vali
+    //password validation
     if (password.length < 8) {
       return res.json({
         success: false,
